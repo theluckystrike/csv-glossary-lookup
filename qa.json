@@ -1,0 +1,80 @@
+[
+  {
+    "feature": "import-preview",
+    "caption": "Map the columns in the local glossary preview.",
+    "note": "Glossary study.md",
+    "eval": "(async()=>{const p = app.plugins.plugins['csv-glossary-lookup']; for (const m of [...p.modals]) m.close(); p.pro.signOut(); p.settings.profiles=[]; p.settings.activeId=''; p.settings.combined=false; p.indexes.clear(); await p.importText('Study.csv', 'term,meaning\\nbank,river edge\\nbank,money service\\n\"ice, cream\",\"cold, sweet\"', ',', {term:0,meaning:1}, false, 'Study'); const e = app.workspace.activeEditor.editor; e.setValue(\"bank\\n\\n# Glossary study\\n\\nThe word **bank** has more than one meaning. Read the senses in the glossary, then choose the one that fits the note.\\n\\n## Reading context\\n\\nWe walked along the bank and watched the river.\\n\\n## Source glossary\\n\\n| Term | Meaning |\\n| --- | --- |\\n| bank | river edge |\\n| bank | money service |\\n| ice, cream | cold, sweet |\\n\\n## Next step\\n\\nSelect the term on the first line. Run **CSV Glossary Lookup: Look up selected text**. Choose one meaning to insert at that range.\\n\"); e.setSelection({line:0,ch:0},{line:0,ch:4});p.openImport(); const modal=[...p.modals][0]; const file=new File(['term,meaning\\nbank,river edge\\nbank,money service\\n\"ice, cream\",\"cold, sweet\"'],'Study.csv',{type:'text/csv'}); const transfer=new DataTransfer(); transfer.items.add(file); modal.contentEl.querySelector('input[type=file]').files=transfer.files; await modal.preview(file); return 'ok';})()",
+    "wait": 500,
+    "after": "const p=app.plugins.plugins['csv-glossary-lookup']; for(const m of [...p.modals])m.close(); p.pro.signOut(); 'ok'",
+    "zoom": 0.9
+  },
+  {
+    "feature": "exact-senses",
+    "caption": "Read the two exact senses of bank.",
+    "note": "Glossary study.md",
+    "eval": "(async()=>{const p = app.plugins.plugins['csv-glossary-lookup']; for (const m of [...p.modals]) m.close(); p.pro.signOut(); p.settings.profiles=[]; p.settings.activeId=''; p.settings.combined=false; p.indexes.clear(); await p.importText('Study.csv', 'term,meaning\\nbank,river edge\\nbank,money service\\n\"ice, cream\",\"cold, sweet\"', ',', {term:0,meaning:1}, false, 'Study'); const e = app.workspace.activeEditor.editor; e.setValue(\"bank\\n\\n# Glossary study\\n\\nThe word **bank** has more than one meaning. Read the senses in the glossary, then choose the one that fits the note.\\n\\n## Reading context\\n\\nWe walked along the bank and watched the river.\\n\\n## Source glossary\\n\\n| Term | Meaning |\\n| --- | --- |\\n| bank | river edge |\\n| bank | money service |\\n| ice, cream | cold, sweet |\\n\\n## Next step\\n\\nSelect the term on the first line. Run **CSV Glossary Lookup: Look up selected text**. Choose one meaning to insert at that range.\\n\"); e.setSelection({line:0,ch:0},{line:0,ch:4});p.openLookup(e,app.workspace.getActiveFile()); return 'ok';})()",
+    "wait": 500,
+    "after": "const p=app.plugins.plugins['csv-glossary-lookup']; for(const m of [...p.modals])m.close(); p.pro.signOut(); 'ok'"
+  },
+  {
+    "feature": "insert-meaning",
+    "caption": "Insert the river meaning at the original selection.",
+    "note": "Glossary study.md",
+    "eval": "(async()=>{const p = app.plugins.plugins['csv-glossary-lookup']; for (const m of [...p.modals]) m.close(); p.pro.signOut(); p.settings.profiles=[]; p.settings.activeId=''; p.settings.combined=false; p.indexes.clear(); await p.importText('Study.csv', 'term,meaning\\nbank,river edge\\nbank,money service\\n\"ice, cream\",\"cold, sweet\"', ',', {term:0,meaning:1}, false, 'Study'); const e = app.workspace.activeEditor.editor; e.setValue(\"bank\\n\\n# Glossary study\\n\\nThe word **bank** has more than one meaning. Read the senses in the glossary, then choose the one that fits the note.\\n\\n## Reading context\\n\\nWe walked along the bank and watched the river.\\n\\n## Source glossary\\n\\n| Term | Meaning |\\n| --- | --- |\\n| bank | river edge |\\n| bank | money service |\\n| ice, cream | cold, sweet |\\n\\n## Next step\\n\\nSelect the term on the first line. Run **CSV Glossary Lookup: Look up selected text**. Choose one meaning to insert at that range.\\n\"); e.setSelection({line:0,ch:0},{line:0,ch:4});p.openLookup(e,app.workspace.getActiveFile());document.querySelector('.csv-glossary-sense button').click(); return 'ok';})()",
+    "wait": 500,
+    "after": "const p=app.plugins.plugins['csv-glossary-lookup']; for(const m of [...p.modals])m.close(); p.pro.signOut(); 'ok'"
+  },
+  {
+    "feature": "reload-snapshot",
+    "caption": "Read an updated meaning after manual reload.",
+    "note": "Glossary study.md",
+    "eval": "(async()=>{const p = app.plugins.plugins['csv-glossary-lookup']; for (const m of [...p.modals]) m.close(); p.pro.signOut(); p.settings.profiles=[]; p.settings.activeId=''; p.settings.combined=false; p.indexes.clear(); await p.importText('Study.csv', 'term,meaning\\nbank,river edge\\nbank,money service\\n\"ice, cream\",\"cold, sweet\"', ',', {term:0,meaning:1}, false, 'Study'); const e = app.workspace.activeEditor.editor; e.setValue(\"bank\\n\\n# Glossary study\\n\\nThe word **bank** has more than one meaning. Read the senses in the glossary, then choose the one that fits the note.\\n\\n## Reading context\\n\\nWe walked along the bank and watched the river.\\n\\n## Source glossary\\n\\n| Term | Meaning |\\n| --- | --- |\\n| bank | river edge |\\n| bank | money service |\\n| ice, cream | cold, sweet |\\n\\n## Next step\\n\\nSelect the term on the first line. Run **CSV Glossary Lookup: Look up selected text**. Choose one meaning to insert at that range.\\n\"); e.setSelection({line:0,ch:0},{line:0,ch:4});await p.importText('Study.csv','term,meaning\\nbank,the land along a river',',',{term:0,meaning:1},false,'Study');p.openLookup(e,app.workspace.getActiveFile()); return 'ok';})()",
+    "wait": 500,
+    "after": "const p=app.plugins.plugins['csv-glossary-lookup']; for(const m of [...p.modals])m.close(); p.pro.signOut(); 'ok'"
+  },
+  {
+    "feature": "profiles",
+    "caption": "Keep Study and Engineering as separate glossary profiles.",
+    "note": "Glossary study.md",
+    "eval": "(async()=>{const p = app.plugins.plugins['csv-glossary-lookup']; for (const m of [...p.modals]) m.close(); p.pro.signOut(); p.settings.profiles=[]; p.settings.activeId=''; p.settings.combined=false; p.indexes.clear(); await p.importText('Study.csv', 'term,meaning\\nbank,river edge\\nbank,money service\\n\"ice, cream\",\"cold, sweet\"', ',', {term:0,meaning:1}, false, 'Study'); const e = app.workspace.activeEditor.editor; e.setValue(\"bank\\n\\n# Glossary study\\n\\nThe word **bank** has more than one meaning. Read the senses in the glossary, then choose the one that fits the note.\\n\\n## Reading context\\n\\nWe walked along the bank and watched the river.\\n\\n## Source glossary\\n\\n| Term | Meaning |\\n| --- | --- |\\n| bank | river edge |\\n| bank | money service |\\n| ice, cream | cold, sweet |\\n\\n## Next step\\n\\nSelect the term on the first line. Run **CSV Glossary Lookup: Look up selected text**. Choose one meaning to insert at that range.\\n\"); e.setSelection({line:0,ch:0},{line:0,ch:4});p.pro.opts.http=async()=>({status:200,json:{data:{viewer:{login:'demo-reader'},user:{sponsorshipForViewerAsSponsor:{isActive:true,isOneTimePayment:false,tier:{name:'$5 a month',monthlyPriceInCents:500}}}}}}); app.secretStorage.setSecret('csv-glossary-lookup-github-token','gho_'+'0'.repeat(36)); await p.pro.refreshNow(); await p.importText('Engineering.csv','term,meaning\\nbank,a row of switches',',',{term:0,meaning:1},true,'Engineering');p.openProfiles(); return 'ok';})()",
+    "wait": 500,
+    "after": "const p=app.plugins.plugins['csv-glossary-lookup']; for(const m of [...p.modals])m.close(); p.pro.signOut(); 'ok'"
+  },
+  {
+    "feature": "combined-lookup",
+    "caption": "Search two local glossary profiles in one lookup.",
+    "note": "Glossary study.md",
+    "eval": "(async()=>{const p = app.plugins.plugins['csv-glossary-lookup']; for (const m of [...p.modals]) m.close(); p.pro.signOut(); p.settings.profiles=[]; p.settings.activeId=''; p.settings.combined=false; p.indexes.clear(); await p.importText('Study.csv', 'term,meaning\\nbank,river edge\\nbank,money service\\n\"ice, cream\",\"cold, sweet\"', ',', {term:0,meaning:1}, false, 'Study'); const e = app.workspace.activeEditor.editor; e.setValue(\"bank\\n\\n# Glossary study\\n\\nThe word **bank** has more than one meaning. Read the senses in the glossary, then choose the one that fits the note.\\n\\n## Reading context\\n\\nWe walked along the bank and watched the river.\\n\\n## Source glossary\\n\\n| Term | Meaning |\\n| --- | --- |\\n| bank | river edge |\\n| bank | money service |\\n| ice, cream | cold, sweet |\\n\\n## Next step\\n\\nSelect the term on the first line. Run **CSV Glossary Lookup: Look up selected text**. Choose one meaning to insert at that range.\\n\"); e.setSelection({line:0,ch:0},{line:0,ch:4});p.pro.opts.http=async()=>({status:200,json:{data:{viewer:{login:'demo-reader'},user:{sponsorshipForViewerAsSponsor:{isActive:true,isOneTimePayment:false,tier:{name:'$5 a month',monthlyPriceInCents:500}}}}}}); app.secretStorage.setSecret('csv-glossary-lookup-github-token','gho_'+'0'.repeat(36)); await p.pro.refreshNow(); await p.importText('Engineering.csv','term,meaning\\nbank,a row of switches',',',{term:0,meaning:1},true,'Engineering');p.settings.combined=true;p.openLookup(e,app.workspace.getActiveFile()); return 'ok';})()",
+    "wait": 500,
+    "after": "const p=app.plugins.plugins['csv-glossary-lookup']; for(const m of [...p.modals])m.close(); p.pro.signOut(); 'ok'"
+  },
+  {
+    "feature": "stale-selection",
+    "caption": "Refuse insertion after the source note changes.",
+    "note": "Glossary study.md",
+    "eval": "(async()=>{const p = app.plugins.plugins['csv-glossary-lookup']; for (const m of [...p.modals]) m.close(); p.pro.signOut(); p.settings.profiles=[]; p.settings.activeId=''; p.settings.combined=false; p.indexes.clear(); await p.importText('Study.csv', 'term,meaning\\nbank,river edge\\nbank,money service\\n\"ice, cream\",\"cold, sweet\"', ',', {term:0,meaning:1}, false, 'Study'); const e = app.workspace.activeEditor.editor; e.setValue(\"bank\\n\\n# Glossary study\\n\\nThe word **bank** has more than one meaning. Read the senses in the glossary, then choose the one that fits the note.\\n\\n## Reading context\\n\\nWe walked along the bank and watched the river.\\n\\n## Source glossary\\n\\n| Term | Meaning |\\n| --- | --- |\\n| bank | river edge |\\n| bank | money service |\\n| ice, cream | cold, sweet |\\n\\n## Next step\\n\\nSelect the term on the first line. Run **CSV Glossary Lookup: Look up selected text**. Choose one meaning to insert at that range.\\n\"); e.setSelection({line:0,ch:0},{line:0,ch:4});p.openLookup(e,app.workspace.getActiveFile());e.replaceRange('bark',{line:0,ch:0},{line:0,ch:4});document.querySelector('.csv-glossary-sense button').click(); return 'ok';})()",
+    "wait": 500,
+    "after": "const p=app.plugins.plugins['csv-glossary-lookup']; for(const m of [...p.modals])m.close(); p.pro.signOut(); 'ok'"
+  },
+  {
+    "feature": "csv-glossary-lookup",
+    "caption": "Import, look up, and insert one local glossary meaning.",
+    "frames": [
+      {
+        "note": "Glossary study.md",
+        "eval": "(async()=>{const p = app.plugins.plugins['csv-glossary-lookup']; for (const m of [...p.modals]) m.close(); p.pro.signOut(); p.settings.profiles=[]; p.settings.activeId=''; p.settings.combined=false; p.indexes.clear(); await p.importText('Study.csv', 'term,meaning\\nbank,river edge\\nbank,money service\\n\"ice, cream\",\"cold, sweet\"', ',', {term:0,meaning:1}, false, 'Study'); const e = app.workspace.activeEditor.editor; e.setValue(\"bank\\n\\n# Glossary study\\n\\nThe word **bank** has more than one meaning. Read the senses in the glossary, then choose the one that fits the note.\\n\\n## Reading context\\n\\nWe walked along the bank and watched the river.\\n\\n## Source glossary\\n\\n| Term | Meaning |\\n| --- | --- |\\n| bank | river edge |\\n| bank | money service |\\n| ice, cream | cold, sweet |\\n\\n## Next step\\n\\nSelect the term on the first line. Run **CSV Glossary Lookup: Look up selected text**. Choose one meaning to insert at that range.\\n\"); e.setSelection({line:0,ch:0},{line:0,ch:4});p.openImport(); const modal=[...p.modals][0]; const file=new File(['term,meaning\\nbank,river edge\\nbank,money service\\n\"ice, cream\",\"cold, sweet\"'],'Study.csv',{type:'text/csv'}); const transfer=new DataTransfer(); transfer.items.add(file); modal.contentEl.querySelector('input[type=file]').files=transfer.files; await modal.preview(file); return 'ok';})()",
+        "hold": 1600,
+        "zoom": 0.9
+      },
+      {
+        "note": "Glossary study.md",
+        "eval": "(async()=>{const p = app.plugins.plugins['csv-glossary-lookup']; for (const m of [...p.modals]) m.close(); p.pro.signOut(); p.settings.profiles=[]; p.settings.activeId=''; p.settings.combined=false; p.indexes.clear(); await p.importText('Study.csv', 'term,meaning\\nbank,river edge\\nbank,money service\\n\"ice, cream\",\"cold, sweet\"', ',', {term:0,meaning:1}, false, 'Study'); const e = app.workspace.activeEditor.editor; e.setValue(\"bank\\n\\n# Glossary study\\n\\nThe word **bank** has more than one meaning. Read the senses in the glossary, then choose the one that fits the note.\\n\\n## Reading context\\n\\nWe walked along the bank and watched the river.\\n\\n## Source glossary\\n\\n| Term | Meaning |\\n| --- | --- |\\n| bank | river edge |\\n| bank | money service |\\n| ice, cream | cold, sweet |\\n\\n## Next step\\n\\nSelect the term on the first line. Run **CSV Glossary Lookup: Look up selected text**. Choose one meaning to insert at that range.\\n\"); e.setSelection({line:0,ch:0},{line:0,ch:4});p.openLookup(e,app.workspace.getActiveFile()); return 'ok';})()",
+        "hold": 1800
+      },
+      {
+        "eval": "document.querySelector('.csv-glossary-sense button').click(); 'ok'",
+        "hold": 1600
+      }
+    ]
+  }
+]

@@ -1,0 +1,436 @@
+{
+  "slug": "csv-glossary-lookup",
+  "module": "csv-glossary-lookup/src/glossary",
+  "function": "parseDelimited",
+  "note": "Operations call parseDelimited, buildGlossary, lookup and canInsert. Generated large and oversize cases keep the vector file small. Transaction cases use the product import method in plugin tests.",
+  "cases": [
+    {
+      "name": "bank has two senses in source order",
+      "operation": "lookup",
+      "args": [
+        "term,meaning\nbank,river edge\nbank,money service",
+        ",",
+        0,
+        1,
+        "bank",
+        false
+      ],
+      "expected": [
+        "river edge",
+        "money service"
+      ]
+    },
+    {
+      "name": "quoted commas stay inside values",
+      "operation": "lookup",
+      "args": [
+        "term,meaning\n\"ice, cream\",\"cold, sweet\"",
+        ",",
+        0,
+        1,
+        "ice, cream",
+        false
+      ],
+      "expected": [
+        "cold, sweet"
+      ]
+    },
+    {
+      "name": "quoted newline and escaped double quotes",
+      "operation": "lookup",
+      "args": [
+        "term,meaning\nquote,\"first line\nShe said \"\"yes\"\".\"",
+        ",",
+        0,
+        1,
+        "quote",
+        false
+      ],
+      "expected": [
+        "first line\nShe said \"yes\"."
+      ]
+    },
+    {
+      "name": "BOM and CRLF in TSV",
+      "operation": "parse",
+      "args": [
+        "﻿term\tmeaning\r\nbank\triver edge\r\n",
+        "\t"
+      ],
+      "expected": [
+        [
+          "term",
+          "meaning"
+        ],
+        [
+          "bank",
+          "river edge"
+        ]
+      ]
+    },
+    {
+      "name": "case insensitive Bank",
+      "operation": "lookup",
+      "args": [
+        "term,meaning\nbank,river edge\nbank,money service",
+        ",",
+        0,
+        1,
+        "Bank",
+        true
+      ],
+      "expected": [
+        "river edge",
+        "money service"
+      ]
+    },
+    {
+      "name": "BANKER has no partial match",
+      "operation": "lookup",
+      "args": [
+        "term,meaning\nbank,river edge\nbank,money service",
+        ",",
+        0,
+        1,
+        "BANKER",
+        true
+      ],
+      "expected": []
+    },
+    {
+      "name": "changed source range refuses insertion",
+      "operation": "guard",
+      "args": [
+        "bank",
+        "bark",
+        "bank",
+        "bark",
+        true
+      ],
+      "expected": false
+    },
+    {
+      "name": "reload discards old meaning",
+      "operation": "reload",
+      "args": [
+        "term,meaning\nbank,old",
+        "term,meaning\nbank,new",
+        "bank"
+      ],
+      "expected": [
+        "new"
+      ]
+    },
+    {
+      "name": "50001 rows yield during parse and indexing",
+      "operation": "large",
+      "args": [
+        50001
+      ],
+      "expected": {
+        "rows": 50001,
+        "last": "meaning 50000",
+        "yielded": true
+      }
+    },
+    {
+      "name": "unclosed quote retains previous index",
+      "operation": "refuse",
+      "args": [
+        "term,meaning\nbank,river edge\nbank,money service",
+        "term,meaning\nbank,\"broken"
+      ],
+      "expected": {
+        "message": "The file has an unclosed quote.",
+        "meanings": [
+          "river edge",
+          "money service"
+        ]
+      }
+    },
+    {
+      "name": "larger than 4 MiB retains previous index",
+      "operation": "oversize",
+      "args": [
+        "term,meaning\nbank,river edge\nbank,money service",
+        4194305
+      ],
+      "expected": {
+        "message": "The file is larger than 4 MiB.",
+        "meanings": [
+          "river edge",
+          "money service"
+        ]
+      }
+    },
+    {
+      "name": "case sensitive Bank does not match",
+      "operation": "lookup",
+      "args": [
+        "term,meaning\nbank,river edge\nbank,money service",
+        ",",
+        0,
+        1,
+        "Bank",
+        false
+      ],
+      "expected": []
+    },
+    {
+      "name": "outer selection space is trimmed",
+      "operation": "lookup",
+      "args": [
+        "term,meaning\nbank,river edge\nbank,money service",
+        ",",
+        0,
+        1,
+        " bank ",
+        false
+      ],
+      "expected": [
+        "river edge",
+        "money service"
+      ]
+    },
+    {
+      "name": "two columns can be mapped in reverse",
+      "operation": "lookup",
+      "args": [
+        "meaning,term\nriver edge,bank",
+        ",",
+        1,
+        0,
+        "bank",
+        false
+      ],
+      "expected": [
+        "river edge"
+      ]
+    },
+    {
+      "name": "an extra column can be ignored",
+      "operation": "lookup",
+      "args": [
+        "id,definition,word\n1,river edge,bank",
+        ",",
+        2,
+        1,
+        "bank",
+        false
+      ],
+      "expected": [
+        "river edge"
+      ]
+    },
+    {
+      "name": "blank rows are skipped",
+      "operation": "parse",
+      "args": [
+        "term,meaning\n\n\r\nbank,river edge\n",
+        ","
+      ],
+      "expected": [
+        [
+          "term",
+          "meaning"
+        ],
+        [
+          "bank",
+          "river edge"
+        ]
+      ]
+    },
+    {
+      "name": "blank terms and meanings are skipped",
+      "operation": "lookup",
+      "args": [
+        "term,meaning\n,ignored\nbank,\nbank,river edge",
+        ",",
+        0,
+        1,
+        "bank",
+        false
+      ],
+      "expected": [
+        "river edge"
+      ]
+    },
+    {
+      "name": "Unicode meanings are preserved",
+      "operation": "lookup",
+      "args": [
+        "term,meaning\ncafé,quán cà phê",
+        ",",
+        0,
+        1,
+        "café",
+        false
+      ],
+      "expected": [
+        "quán cà phê"
+      ]
+    },
+    {
+      "name": "HTML stays plain text",
+      "operation": "lookup",
+      "args": [
+        "term,meaning\nx,<script>example</script>",
+        ",",
+        0,
+        1,
+        "x",
+        false
+      ],
+      "expected": [
+        "<script>example</script>"
+      ]
+    },
+    {
+      "name": "same column mapping is refused",
+      "operation": "error",
+      "args": [
+        "term,meaning\nx,y",
+        ",",
+        0,
+        0
+      ],
+      "expected": "Select two different columns."
+    },
+    {
+      "name": "wrong row width is refused",
+      "operation": "error",
+      "args": [
+        "term,meaning\nx,y,z",
+        ",",
+        0,
+        1
+      ],
+      "expected": "Row 2 has 3 columns; expected 2."
+    },
+    {
+      "name": "text after quote is refused",
+      "operation": "parseError",
+      "args": [
+        "term,meaning\nx,\"y\"z",
+        ","
+      ],
+      "expected": "A quoted field has text after its closing quote."
+    },
+    {
+      "name": "quote inside unquoted field is refused",
+      "operation": "parseError",
+      "args": [
+        "term,meaning\nx,y\"z",
+        ","
+      ],
+      "expected": "A quote must start at the start of a field."
+    },
+    {
+      "name": "empty data is refused",
+      "operation": "error",
+      "args": [
+        "term,meaning",
+        ",",
+        0,
+        1
+      ],
+      "expected": "The mapped columns have no terms with meanings."
+    },
+    {
+      "name": "unchanged original range permits insertion",
+      "operation": "guard",
+      "args": [
+        "bank",
+        "bank",
+        "bank",
+        "bank",
+        true
+      ],
+      "expected": true
+    },
+    {
+      "name": "switching the note refuses insertion",
+      "operation": "guard",
+      "args": [
+        "bank",
+        "bank",
+        "bank",
+        "bank",
+        false
+      ],
+      "expected": false
+    },
+    {
+      "name": "moving equal term with prefix refuses insertion",
+      "operation": "guard",
+      "args": [
+        "bank bank",
+        "prefix bank bank",
+        "bank",
+        "bank",
+        true
+      ],
+      "expected": false
+    },
+    {
+      "name": "empty original selection refuses insertion",
+      "operation": "guard",
+      "args": [
+        "",
+        "",
+        "",
+        "",
+        true
+      ],
+      "expected": false
+    },
+    {
+      "name": "TSV quoted tabs remain one meaning",
+      "operation": "lookup",
+      "args": [
+        "term\tmeaning\nbank\t\"river\tedge\"",
+        "\t",
+        0,
+        1,
+        "bank",
+        false
+      ],
+      "expected": [
+        "river\tedge"
+      ]
+    },
+    {
+      "name": "final empty field parses",
+      "operation": "parse",
+      "args": [
+        "a,b\nx,",
+        ","
+      ],
+      "expected": [
+        [
+          "a",
+          "b"
+        ],
+        [
+          "x",
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "literal quoted CSV row without a header",
+      "operation": "headerless",
+      "args": [
+        "\"ice, cream\",\"cold, sweet\"",
+        ",",
+        0,
+        1,
+        "ice, cream",
+        false
+      ],
+      "expected": [
+        "cold, sweet"
+      ]
+    }
+  ]
+}

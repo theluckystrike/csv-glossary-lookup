@@ -1,0 +1,41 @@
+.csv-glossary-preview {
+	overflow: auto;
+	max-height: 260px;
+	margin: 1em 0;
+}
+
+.csv-glossary-preview table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.csv-glossary-preview th, .csv-glossary-preview td {
+	border: 1px solid var(--background-modifier-border);
+	padding: 8px;
+	text-align: start;
+	white-space: pre-wrap;
+}
+
+.csv-glossary-sense {
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-m);
+	padding: 16px;
+	margin: 12px 0;
+	background: var(--background-secondary);
+}
+
+.csv-glossary-source {
+	color: var(--text-muted);
+	font-size: var(--font-smaller);
+	margin-top: 0;
+}
+
+.csv-glossary-meaning {
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	margin-bottom: 12px;
+}
+
+.csv-glossary-status {
+	color: var(--text-muted);
+}
