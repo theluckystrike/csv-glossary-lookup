@@ -32,7 +32,7 @@ Lookup trims spaces at the ends of the selection and stored terms. It matches th
 
 ### Insert at the original selection
 
-Select the insertion button below a meaning to replace the original selection. Spaces at the ends of the selection stay in the note. Moving the cursor after lookup does not move this target. The plugin checks the captured source note and range before it writes. If the note text changes, or another note becomes active, insertion is refused. Close the modal and start a fresh lookup.
+Select the insertion button below a meaning to replace the original selection. Spaces at the ends of the selection stay in the note. Moving the cursor after lookup does not move this target. The plugin checks the captured source note and range before it writes. If the note text changes, or another note becomes active, insertion is refused.
 
 This check also refuses edits outside the selected range. Use a fresh lookup after an edit, even when the term still looks the same.
 
@@ -58,7 +58,7 @@ Without Pro, the first stored profile supplies the free glossary. Other profiles
 
 Enable “Search several glossaries” in the plugin settings to use the stored profiles in one lookup. Results follow profile order, then source row order. The glossary name beside each sense identifies its source. Duplicate senses stay visible so that you can compare the sources.
 
-The setting applies only while Pro is active. With it off, lookup uses the selected profile.
+With it off, lookup uses the selected profile.
 
 <img src="https://raw.githubusercontent.com/theluckystrike/csv-glossary-lookup/HEAD/docs/combined-lookup.png" alt="Two Study meanings and one Engineering meaning for bank in one lookup" width="720">
 
@@ -80,6 +80,8 @@ This repository does not install an updater. Keep a backup of your source glossa
 A small starter file can contain a `term,meaning` header and the rows `bank,river edge` and `bank,money service`. Use double quotes around a field that contains a comma or newline. Write a literal double quote inside a quoted field as two double quotes. Data rows must have the same number of fields as the first row.
 
 ## Settings
+
+After a minor or major update, this plugin opens one What's new tab in the background. The tab and settings card suggest other NoteMods plugins and Zovo Chat and link to notemods.com for feedback ([privacy](https://notemods.com/privacy/)). The tab sends no data. Turn the tab off in Settings.
 
 “Ignore case” controls exact matching and is on by default. “Local glossary” opens import. The two Pro controls manage profiles and enable lookup across profiles. The GitHub account controls show the sponsorship status and provide sign-in, refresh, and sign-out actions.
 

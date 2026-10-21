@@ -1,7 +1,7 @@
 {
 	"id": "csv-glossary-lookup",
 	"name": "CSV Glossary Lookup",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"minAppVersion": "1.13.4",
 	"description": "Look up selected terms in a local CSV glossary and insert a meaning.",
 	"author": "Michael Lip",

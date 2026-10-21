@@ -5,6 +5,8 @@ import { SPONSORS, bindPro, isPro, resetPro } from './pro';
 import { buildGlossary, parseDelimited, lookup, canInsert, MAX_BYTES, type Glossary, type Mapping, type Delimiter, type Sense } from './glossary';
 import { CsvGlossaryLookupSettingTab, DEFAULT_SETTINGS, normalizeSettings, type CsvGlossaryLookupSettings, type Profile } from './settings';
 import { ImportModal, ProfilesModal, ResultsModal } from './modals';
+import { setupHello } from './hello/index';
+import WHATS_NEW from './whats-new.json';
 export interface Result extends Sense { profile: string }
 export interface Selection { editor: Editor; file: TFile | null; original: string; term: string; from: { line: number; ch: number }; to: { line: number; ch: number } }
 export default class CsvGlossaryLookupPlugin extends Plugin {
@@ -16,6 +18,8 @@ export default class CsvGlossaryLookupPlugin extends Plugin {
  private stopped = false;
  readonly modals = new Set<Modal>();
  async onload(): Promise<void> {
+  // First: "What's new" reads its state before the settings load (packages/hello). It does not wait.
+  setupHello(this, WHATS_NEW);
   await this.loadSettings();
   const pro = createGitHubSponsors(this.app, this.manifest.id, SPONSORS, this);
   pro.init(); this.pro = pro; bindPro(pro);

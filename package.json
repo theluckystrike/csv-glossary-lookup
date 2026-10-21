@@ -1,6 +1,6 @@
 {
 	"name": "csv-glossary-lookup",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"private": true,
 	"description": "Look up selected terms in a local CSV glossary and insert a meaning.",
 	"main": "main.js",

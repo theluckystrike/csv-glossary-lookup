@@ -3,6 +3,7 @@ import { sponsorsSettingItems } from './license/github-obsidian';
 import { PRO_UI, isPro } from './pro';
 import { MAX_BYTES, type Delimiter, type Mapping } from './glossary';
 import type CsvGlossaryLookupPlugin from './main';
+import { helloSettingItems } from './hello/settings';
 export interface Profile { id: string; name: string; fileName: string; text: string; delimiter: Delimiter; mapping: Mapping; hasHeader: boolean }
 export interface CsvGlossaryLookupSettings { ignoreCase: boolean; combined: boolean; activeId: string; profiles: Profile[] }
 export const DEFAULT_SETTINGS: CsvGlossaryLookupSettings = { ignoreCase: true, combined: false, activeId: '', profiles: [] };
@@ -16,6 +17,11 @@ export function normalizeSettings(saved: Partial<CsvGlossaryLookupSettings> | nu
 export class CsvGlossaryLookupSettingTab extends PluginSettingTab {
  constructor(app: ConstructorParameters<typeof PluginSettingTab>[0], public plugin: CsvGlossaryLookupPlugin) { super(app, plugin); }
  getSettingDefinitions(): SettingDefinitionItem[] {
+  // The product rows, then the "More from NoteMods" card (packages/hello).
+  return [...this.productSettingDefinitions(), ...helloSettingItems()];
+ }
+
+ productSettingDefinitions(): SettingDefinitionItem[] {
   const p = this.plugin;
   return [
    { name: 'Ignore case', desc: 'Match Bank with bank. Lookups use the complete selected term.', control: { type: 'toggle', key: 'ignoreCase', defaultValue: true } },
