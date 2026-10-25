@@ -1,5 +1,6 @@
 {
 	"name": "csv-glossary-lookup",
+	"repository": {"type": "git", "url": "theluckystrike/csv-glossary-lookup.git"},
 	"version": "1.1.0",
 	"private": true,
 	"description": "Look up selected terms in a local CSV glossary and insert a meaning.",
