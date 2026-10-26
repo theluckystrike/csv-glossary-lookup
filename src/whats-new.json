@@ -1,16 +1,9 @@
 {
 	"id": "csv-glossary-lookup",
 	"name": "CSV Glossary Lookup",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"changes": [
-		"New Send feedback command. It opens a page where you can report a problem or suggest an idea.",
-		"Adds local CSV and TSV import with column mapping.",
-		"Adds exact term lookup, source senses, safe insertion, and manual reload."
-	],
-	"changes_user": [
-		"New Send feedback command. It opens a page where you can report a problem or suggest an idea.",
-		"You can import a local CSV or TSV glossary and choose which columns to use.",
-		"Look up a selected term to see each of its meanings, then insert one in place of the selection."
+		"The Pro notice for glossary profiles now has a Sponsor on GitHub button."
 	],
 	"tip": "Turn off 'Ignore case' when capitalization changes a term's meaning.",
 	"thanks": "Hi, I am Michael, a solo developer in Poland. CSV Glossary Lookup is one of over 100 small plugins that I make. Thank you for trusting it with your glossaries.",

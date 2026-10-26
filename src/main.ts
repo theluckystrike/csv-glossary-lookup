@@ -1,7 +1,7 @@
 import { Plugin, Notice, type Editor, type TFile, type Modal } from 'obsidian';
 import { createGitHubSponsors } from './license/github-obsidian';
 import type { SponsorsManager } from './license/index';
-import { SPONSORS, bindPro, isPro, resetPro } from './pro';
+import { SPONSORS, bindPro, isPro, resetPro, proNotice } from './pro';
 import { buildGlossary, parseDelimited, lookup, canInsert, MAX_BYTES, type Glossary, type Mapping, type Delimiter, type Sense } from './glossary';
 import { CsvGlossaryLookupSettingTab, DEFAULT_SETTINGS, normalizeSettings, type CsvGlossaryLookupSettings, type Profile } from './settings';
 import { ImportModal, ProfilesModal, ResultsModal } from './modals';
@@ -48,7 +48,7 @@ export default class CsvGlossaryLookupPlugin extends Plugin {
  }
  async saveSettings(): Promise<void> { await this.saveData(this.settings); }
  currentProfile(): Profile | undefined { return (isPro() ? this.settings.profiles.find((p) => p.id === this.settings.activeId) : this.settings.profiles[0]) ?? this.settings.profiles[0]; }
- requirePro(): boolean { if (isPro()) return true; new Notice('This is a pro feature. Sponsor on GitHub, then sign in from the plugin settings.'); return false; }
+ requirePro(): boolean { if (isPro()) return true; proNotice('This is a pro feature.'); return false; }
  openImport(add = false): void { if (add && !this.requirePro()) return; new ImportModal(this, add).open(); }
  openProfiles(): void { if (this.requirePro()) new ProfilesModal(this).open(); }
  async importText(fileName: string, text: string, delimiter: Delimiter, mapping: Mapping, add = false, name = fileName, hasHeader = true): Promise<Profile> {
